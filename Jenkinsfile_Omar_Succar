@@ -28,11 +28,23 @@ pipeline {
                 }
             }
         }
+        stage('Coverage') {
+            steps {
+                script {
+                    sh """
+                    source ${VIRTUAL_ENV}/bin/activate && \
+                    coverage run -m pytest && \
+                    coverage report -m && \
+                    coverage html
+                    """
+                }
+            }
+        }
         stage('Deploy') {
             steps {
                 script {
-                    // Deployment logic, e.g., pushing to a remote server
                     echo "Deploying application..."
+                    // Deployment logic goes here
                 }
             }
         }
@@ -42,4 +54,4 @@ pipeline {
             cleanWs()
         }
     }
-} 
+}
